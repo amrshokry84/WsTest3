@@ -17,46 +17,48 @@
     </resources>
     <outputDirectory>classes/</outputDirectory>
     <plugins>
-
       <plugin>
-        <groupId>com.oracle.adf.plugin</groupId>
-        <artifactId>ojdeploy</artifactId>
-        <version>12.2.1-0-0</version>
-        <configuration>
-          <ojdeploy>
-            ${oracleHome}/jdeveloper/jdev/bin/ojdeploy.exe
-          </ojdeploy>
-          <workspace>
-            ${basedir}/../WsTest3.jws
-          </workspace>
-          <project>
-            Project1
-          </project>
-          <profile>
-            WebServices
-          </profile>
-          <outputfile>
-            ${project.build.directory}/${project.build.finalName}.war
-          </outputfile>
-        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.3</version>
         <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>deploy</goal>
-            </goals>
-          </execution>
+        <execution>
+        <phase>package</phase>
+        <goals><goal>copy</goal></goals>
+        <configuration>
+            <artifactItems>
+                <artifactItem>
+                    <groupId>com.github.jsimone</groupId>
+                    <artifactId>webapp-runner</artifactId>
+                    <version>7.0.40.0</version>
+                    <destFileName>webapp-runner.jar</destFileName>
+                </artifactItem>
+            </artifactItems>
+        </configuration>
+        </execution>
         </executions>
+      </plugin>
+      <plugin>
+      <artifactId>maven-war-plugin</artifactId>
+      <version>2.4</version>
+      <configuration>
+      <warSourceDirectory>WebContent</warSourceDirectory>
+      <fialOnMissingWebXml>false</fialOnMissingWebXml>
+      </configuration>
       </plugin>
     </plugins>
   </build>
   <dependencies>
     <dependency>
-      <groupId>com.oracle.adf.library</groupId>
-      <artifactId>JAX-WS-Web-Services</artifactId>
-      <version>12.2.1-0-0</version>
-      <type>pom</type>
+      <groupId>javax</groupId>
+      <artifactId>javaee-web-api</artifactId>
+      <version>7.0</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-http-hc</artifactId>
+      <version>2.7.12</version>
     </dependency>
   </dependencies>
   <properties>
